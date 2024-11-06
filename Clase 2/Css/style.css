@@ -14,3 +14,22 @@ strong {
     font-family:'Times New Roman', Times, serif;
     font size: 25 px;
 }
+ol{
+    color: blue;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 15px;
+}
+
+dt{
+    color: chocolate;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 10px ;
+}
+
+dd{
+    color: green;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 9px;
+
+}
+
