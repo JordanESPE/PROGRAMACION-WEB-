@@ -1,0 +1,22 @@
+body{
+        background-color: white;
+       
+}
+header{
+        font-size: 14px;
+        font-family: 'Times New Roman', Times, serif;
+        color: darkslateblue;
+}
+
+#container{
+        margin: 0 auto;
+        text-align: center;
+        max-width: 800px;
+        
+
+}
+
+#Proyecto ul{
+        text-align: justify;
+
+}
