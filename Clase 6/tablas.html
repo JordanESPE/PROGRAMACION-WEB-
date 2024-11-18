@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Css/tablasvg.css">
+    <title>Tablas</title>
+    <header>
+        <h1>Tablas</h1>
+        <p>El uso de la etiqueta <em>table</em> es para el envío y recepción de información.</p>
+    </header>
+</head>
+<body>
+    <section>
+        <article>
+            <table frame="void" rules="cols" border="2px" cellpadding="10" cellspacing="10">
+                <caption align="bottom">Tabla De Datos Personales</caption>
+                <colgroup>
+                    <col style="background-color: burlywood;">
+                    <col style="background-color: darkcyan;">
+                    <col style="background-color: chocolate;">
+                    <col style="background-color: coral;">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Nombres</th>
+                        <th>Apellido</th>
+                        <th>Dirección</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="4">Jordan</td>
+                        <td>Guaman</td>
+                        <td rowspan="4">Conocoto</td>
+                    </tr>
+                    <tr>
+                        <td>Conocoto</td>
+                    </tr>
+                    <tr>
+                        <td>Conocoto</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                </tfoot>
+            </table>
+        </article>
+    </section>
+
+    <form action="submit" method="post">
+        <label for="txtnombre" >Nombre</label>
+        <input type="text" maxlength="2" id="txtnombre" placeholder="Nombres">
+        <br><br>
+
+        <label for="txtapellido">Apellido</label>
+        <input type="text" id="txtapellido" placeholder="Apellidos">
+        <br><br>
+
+        <label for="txtpassword">Contraseña</label>
+        <input type="password" id="txtpassword" placeholder="Contraseña">
+        <br><br>
+
+        <label for="userrole">Tipo de Persona</label>
+        <select id="userrole">
+            <option value="estudiante">Estudiante</option>
+            <option value="docente">Docente</option>
+            <option value="administrativo">Administrativo</option>
+        </select>
+        <br><br>
+        <label>
+            Observacion:
+        </label>
+        <textarea></textarea>
+
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+</html>
