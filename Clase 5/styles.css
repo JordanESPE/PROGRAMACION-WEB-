@@ -13,11 +13,11 @@ body {
   
   section {
     display: flex;
-    justify-content: flex-start; /* Alinea el contenido a la izquierda */
+    justify-content: flex-start; /
   }
   
   .game-display {
-    flex-grow: 1; /* La sección del juego ocupará el espacio disponible */
+    flex-grow: 1; 
     text-align: center;
   }
   
@@ -28,11 +28,10 @@ body {
     padding: 10px;
   }
   
-  /* Mueve los asides a la derecha con flexbox */
   section {
     display: flex;
-    justify-content: flex-end; /* Esto mueve los asides al final (derecha) */
-    gap: 20px; /* Espacio entre los elementos aside */
+    justify-content: flex-end; 
+    gap: 20px; 
   }
   
   aside h2 {
