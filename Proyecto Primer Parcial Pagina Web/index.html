@@ -4,44 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RetroStore || VideoJuegos Antiguos</title>
-    <link rel="icon" type="icon" href="/Imagenes/icon.jpg">
+    <link rel="icon" type="image/jpg" href="/Imagenes/icon.jpg">
     <link rel="stylesheet" href="/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
-    <div>
+    <header>
         <h1 class="Titulos">RetroStore</h1>
+        <p>Tu lugar para explorar y adquirir videojuegos clásicos y consolas retro.</p>
+    </header>
 
-        <img src="/Imagenes/Imagen1.jpg" alt="Descripción de la imagen" width="ancho" height="alto">
-    
-    </div>
+    <nav class="nav">
+        <a href="index.html">Home || </a>
+        <a href="https://www.fib.upc.edu/retro-informatica/historia/videojocs.html" target="_blank">Historia || </a>
+        <a href="/tienda.html" target="_blank">Tienda ||</a>
+        <a href="/empleo.html" target="_blank">Trabaja con nosotros ||</a>
+        <label for="categorias">Categorías:</label>
+        <select id="categorias">
+            <option value="" disabled selected>Selecciona</option>
+            <option value="Acción">Acción</option>
+            <option value="Aventura">Aventura</option>
+            <option value="Mundo Abierto">Mundo Abierto</option>
+            <option value="Deportes">Deportes</option>
+        </select>
+    </nav>
 
-    <div>
-        <nav>
-            <a href="index.html">Home || </a>
-            <a href="https://www.fib.upc.edu/retro-informatica/historia/videojocs.html" target="_blank">Historia</a>
-            <a href="/tienda.html" target="_blank">Tienda ||</a>
-            <a href="/empleo.html" target="_blank">Trabaja con nosotros ||</a>
-            <label for="categorias">Categorías:</label>
-            <select id="categorias" onchange="handleCategoryChange(this)">
-                <option value="" disabled selected>Selecciona</option>
-                <option value="Acción">Acción</option>
-                <option value="Aventura">Aventura</option>
-                <option value="Mundo Abierto">Mundo Abierto</option>
-                <option value="Deportes">Deportes</option>
-            </select>
-        </nav>
-    </div>
- 
+    <section>
+        <h2>Sobre nosotros</h2>
+        <p>
+            Soy Jordan, CEO DE RetroStore,en RetroStore nos especializamos en la venta de videojuegos y consolas antiguas. 
+            Nuestra misión es revivir los momentos más nostálgicos del pasado, ofreciendo productos originales 
+            que marcaron la historia de los videojuegos.
+        </p>
+        <img src="/Imagenes/Imagen1.jpg" alt="Descripción de la imagen" width="200" height="1 00">
+    </section>
 
-  
+    <section>
+        <h2>Productos De Co</h2>
+        <table>
+            <tr>
+                <th>Producto</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+            </tr>
+            <tr>
+                <td>Nintendo Entertainment System (NES)</td>
+                <td>Consola clásica con juegos originales</td>
+                <td>$120</td>
+            </tr>
+            <tr>
+                <td>Sega Genesis</td>
+                <td>Consola retro de 16 bits</td>
+                <td>$90</td>
+            </tr>
+            <tr>
+                <td>Pac-Man</td>
+                <td>Cartucho original para Atari 2600</td>
+                <td>$25</td>
+            </tr>
+        </table>
+    </section>
 
-    
-    
-  
-  
+    <footer>
+        <p>&copy; 2024 RetroStore. Todos los derechos reservados.</p>
+        <p>Contacto: <a href="jordanoguaman09@hotmail.com">contacto@retrostore.com</a></p>
+    </footer>
 </body>
 </html>
-
-
