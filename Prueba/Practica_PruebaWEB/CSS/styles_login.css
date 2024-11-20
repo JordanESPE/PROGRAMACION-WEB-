@@ -1,0 +1,76 @@
+
+body {
+    background-image: url(/Imagenes/fondo.jpg);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    
+}
+
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 500px;
+}
+
+
+.user-icon {
+    margin-bottom: 20px;
+}
+
+
+.containeraside {
+    width: 100%;
+}
+
+aside form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px 8px 8;
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+    
+}
+
+button.login-btn {
+    background: rgb(2,0,36);
+background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(147,67,50,1) 35%, rgba(5,106,185,1) 66%, rgba(0,212,255,1) 100%);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button.login-btn:hover {
+    background-color: darkred;
+}
+
