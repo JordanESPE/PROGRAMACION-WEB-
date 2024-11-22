@@ -1,0 +1,33 @@
+*{
+    margin: 0px;
+}
+
+body{
+    background-color: aliceblue;
+}
+
+header{
+    background-color: purple;
+
+}
+
+.section1{
+    height: 400px;
+    background-color: rgb(77, 77, 162);
+    background-image: url("/Imagen/1.jpg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+section2{
+    background-image: url("/Imagen/1500.jpg");
+    height: 400px;
+}
+
+.section3{
+    height: 500px;
+    background-image: url("/Imagen/1.jpg");
+    background-size: 100%;
+    background-attachment: fixed;
+}
