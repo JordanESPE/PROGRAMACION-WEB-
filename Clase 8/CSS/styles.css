@@ -1,0 +1,81 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color:black;
+}
+
+.pie-pagina {
+  margin-top: 50px;
+  padding: 15px;
+  background-color: #2a6ba5;
+  text-align: center;
+  font-size: 15px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.encabezado {
+  background-color: #2a6ba5;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+.contenido {
+  display: flex;
+  padding: 5px;
+  flex-direction: row;
+  gap: 10px;
+  margin: auto;
+  margin-right: 5%;
+  margin-left: 20%;
+}
+
+.articulo {
+  flex: 3;
+  display: flex;
+  gap: 5px;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+.fecha {
+  background: #2a6ba5;
+  position: relative;
+  top: 5px;
+  left: -60px;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  border-radius: 8px;
+  min-width: 100px;
+  max-height: 100px;
+}
+
+.dia {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.dia-semana {
+  font-size: 14px;
+}
+
+.barra-lateral {
+  flex: 2;
+  background: #eaeaea;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.cuerpo-articulo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.cuerpo-articulo p {
+  flex: 2;
+}

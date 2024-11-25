@@ -1,0 +1,42 @@
+*{
+    margin: 0;
+}
+body{
+    height: 100px;
+    background-color: aliceblue;
+}
+
+.container{
+    display: flex;
+    border: 1px solid blue;
+    height: 500px;
+    width: 40%;
+}
+
+.container div{
+    height: 50px;
+}
+
+.item-1{
+    flex: 2 2 100px;
+    background-color: red;
+}
+/*Detalles de los valores de flex*/
+/*
+flex: 1 1 100px;  
+Flex-grow: 1;  Cuanto crece el elemento respecto al espacio disponible
+flex-shirink:1; Cuando se refudce el elemento respecto al espaico dispobible
+flex-basis:100px; => tamano inicial antes que crezca o se aplique shirink*/
+.item-2{
+    flex: 2 2 100px;
+    background-color: green;
+}
+
+.item-3{
+    flex: 1 1 100px;
+    background-color: blue;
+}
+.item-4{
+    flex: 1 2 100px;
+    background-color: chocolate;
+}
