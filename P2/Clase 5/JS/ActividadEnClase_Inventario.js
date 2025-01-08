@@ -25,7 +25,7 @@ const inventario = {
     producto1: { nombre: 'Procesador Intel i5', precio: 200, cantidad: 30 },
     producto2: { nombre: 'Memoria RAM 8GB', precio: 50, cantidad: 100 },
     producto3: { nombre: 'Disco Duro 1TB', precio: 60, cantidad: 50 },
-    producto4: { nombre: 'Tarjeta Gráfica GTX 4090', precio: 300, cantidad: 20 }
+    producto4: { nombre: 'Tarjeta Grafica GTX 4090', precio: 300, cantidad: 20 }
 };
 
 Object.seal(inventario);//Inventario estatico
