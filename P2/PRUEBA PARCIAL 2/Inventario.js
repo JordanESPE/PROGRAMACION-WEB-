@@ -1,184 +1,178 @@
-//Jordan Guaman
-
-const inventario = {
-    producto: { nombre: '', precio:'', categoria: '', cantidad: '' },
-    producto: { nombre: '', precio: '', cantidad: '', categoria: ' ' },
-    producto: { nombre: '', precio: '', cantidad: '', categoria: ' ' },
-    producto: { nombre: '', precio: '', cantidad: '', categoria: '' },
-    producto: { nombre: '', precio: '', cantidad: '', categoria: '' },
-};
-
+class Producto {
+    constructor(nombre, precio, cantidad, categoria) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.cantidad = cantidad;
+        this.categoria = categoria;
+    }
+}
 
 class Inventario {
     constructor() {
-        this.inventario = {};
+        this.productos = [];
     }
 
     agregarProducto(producto) {
-        this.inventario[producto.nombre] = producto.nombre;
-        this.inventario[producto.nombre].cantidad = producto.cantidad;
-        this.inventario[producto.nombre].precio = producto.precio;
-        this.inventario[producto.nombre].categoria = producto.categoria;
+        this.productos.push(producto);
     }
 
-
-
-    listarProductosAscendente_Descendente() {
-        
-        let productos = Object.values(this.inventario);
-        let productosOrdenadosAscendente = [];
-        let productosOrdenadosDescendente = [];
-
-        for (let i = 0; i < productos.length; i++) {
-            let producto = productos[i];
-            let j = 0;
-
-            while (j < productosOrdenadosAscendente.length && productosOrdenadosAscendente[j].precio < producto.precio) {
-                j++;
+    listarProductos(orden = 'ascendente') {
+        let productosOrdenados = [...this.productos];
+        for (let i = 0; i < productosOrdenados.length - 1; i++) {
+            for (let j = 0; j < productosOrdenados.length - 1 - i; j++) {
+                if ((orden === 'ascendente' && productosOrdenados[j].precio > productosOrdenados[j + 1].precio) ||
+                    (orden === 'descendente' && productosOrdenados[j].precio < productosOrdenados[j + 1].precio)) {
+                    let temp = productosOrdenados[j];
+                    productosOrdenados[j] = productosOrdenados[j + 1];
+                    productosOrdenados[j + 1] = temp;
+                }
             }
-
-            productosOrdenadosAscendente.splice(j, 0, producto);
         }
-
-        productosOrdenadosDescendente = productosOrdenadosAscendente.slice().reverse();
-
-        console.log('Productos ordenados por precio ascendente:', productosOrdenadosAscendente);
-        console.log('Productos ordenados por precio descendente:', productosOrdenadosDescendente);
+        console.log(`PRODUCTOS DE FORMA ${orden.toUpperCase()}`);
+        console.log("PRODUCTO - PRECIO - CANTIDAD");
+        for (let i = 0; i < productosOrdenados.length; i++) {
+            console.log(`${productosOrdenados[i].nombre}: Precio - $${productosOrdenados[i].precio}, Cantidad - ${productosOrdenados[i].cantidad}`);
+        }
     }
 
-    filtrarProductos_Categoria(){
-        let productos = Object.values(this.inventario);
-        let categoria = 'Tarjetas Graficas';
-        let productosFiltrados = productos.filter(producto => producto.categoria === categoria);
-        console.log(`Productos de la categoria ${categoria}:`, productosFiltrados);
+    filtrarPorCategoria(categoria) {
+        const productosFiltrados = [];
+        for (let i = 0; i < this.productos.length; i++) {
+            if (this.productos[i].categoria === categoria) {
+                productosFiltrados.push(this.productos[i]);
+            }
+        }
+        return productosFiltrados;
+    }
+
+    aplicarDescuento(categoria, porcentaje) {
+        if (porcentaje >= 100) {
+            console.log("No puede exceder el límite de descuento");
+            return;
+        }
+        console.log("Se ha aplicado el descuento a la categoria " + categoria);
+        for (let i = 0; i < this.productos.length; i++) {
+            if (this.productos[i].categoria === categoria) {
+                this.productos[i].precio *= (1 - porcentaje / 100);
+            }
+        }
+    }
+
+    get productoMasVendido() {
+        let max = this.productos[0];
+        for (let i = 1; i < this.productos.length; i++) {
+            if (this.productos[i].cantidad > max.cantidad) {
+                max = this.productos[i];
+            }
+        }
+        return max;
+    }
+
+    imprimirReporte(ventas) {
+        console.log();
+        console.log("REPORTE AVANZADO");
+        for (let i = 0; i < this.productos.length; i++) {
+            console.log(`${this.productos[i].nombre}: Precio - $${this.productos[i].precio}, Cantidad - ${this.productos[i].cantidad}`);
+        }
+        console.log("El producto más vendido es: " + this.productoMasVendido.nombre);
+        console.log();
+        console.log("VENTAS REALIZADAS:");
+        let gananciasTotales = 0;
+        for (let i = 0; i < ventas.length; i++) {
+            const ganancia = ventas[i].producto.precio * ventas[i].cantidad;
+            gananciasTotales += ganancia;
+            console.log(`Producto: ${ventas[i].producto.nombre}, Cantidad: ${ventas[i].cantidad}, Fecha: ${ventas[i].fecha}, Ganancia: $${ganancia.toFixed(2)}`);
+        }
+        console.log();
+        console.log(`GANANCIAS TOTALES: $${gananciasTotales.toFixed(2)}`);
     }
 }
 
 class Venta {
     constructor(inventario) {
         this.inventario = inventario;
+        this.ventas = [];
     }
 
-  realizarVentar(nombreProducto, cantidad) {
-    for (let key in this.inventario) {
-        if (this.inventario[key].nombre === nombreProducto) {
-            if (this.inventario[key].cantidad >= cantidad) {
-                this.inventario[key].cantidad -= cantidad;
-                console.log(`Venta exitosa: Cantidad : ${cantidad} ${nombreProducto} , vendido.`);
-            } else {
-                console.log(`Stock insuficiente de ${nombreProducto}.`);
-            }
+    realizarVenta(nombreProducto, cantidad) {
+        const producto = this.inventario.productos.find(p => p.nombre === nombreProducto);
+        if (!producto) {
+            console.log("El producto no consta en stock, no existe");
             return;
         }
+        if (producto.cantidad >= cantidad) {
+            producto.cantidad -= cantidad;
+            this.ventas.push({ producto, cantidad, fecha: new Date() });
+            console.log(`Se vendió ${cantidad} de ${producto.nombre}.`);
+        } else {
+            console.log(`Su pedido excede la cantidad de ${producto.nombre} en stock.`);
+        }
     }
-    console.log(`Producto "${nombreProducto}" no encontrado en Inventario.`);
-  }
 }
 
 class Descuento {
-    constructor(inventario) {
-        this.inventario = inventario;
+    constructor(productos) {
+        this.productos = productos;
     }
 
     aplicarDescuento(porcentaje, categoria) {
-        for (let key in this.inventario) {
-            if (this.inventario[key].categoria === categoria) {
-                let descuento = this.inventario[key].precio * (porcentaje / 100);
-                let nuevoPrecio = this.inventario[key].precio - descuento;
-
-                if (nuevoPrecio < 0) {
-                    nuevoPrecio = 0;
-                }
-
-                this.inventario[key].precio = nuevoPrecio;
+        if (porcentaje >= 100) {
+            console.log("No puede exceder el límite de descuento");
+            return;
+        }
+        console.log("Se ha aplicado el descuento a la categoria " + categoria);
+        for (let i = 0; i < this.productos.length; i++) {
+            if (this.productos[i].categoria === categoria) {
+                this.productos[i].precio *= (1 - porcentaje / 100);
             }
         }
-        console.log(`Descuento del ${porcentaje}% aplicado a todos los productos de la categoria ${categoria}.`);
     }
 }
-
-
 
 class Reporte {
-    reporte(){
-        let ventas = [];
-        let ingresos = 0;
-        let productosVendidos = {};
+    constructor(productos) {
+        this.productos = productos;
+    }
 
-        for (let key in this.inventario) {
-            ingresos += this.inventario[key].precio * (this.inventario[key].cantidad);
+    reporte() {
+        console.log("REPORTE DE INVENTARIO");
+        for (let i = 0; i < this.productos.length; i++) {
+            console.log(`${this.productos[i].nombre}: Precio - $${this.productos[i].precio}, Cantidad - ${this.productos[i].cantidad}`);
         }
-
-        ventas.push({
-            fecha: new Date(),
-            producto: 'Procesador Intel i9',
-            cantidad: 5,
-        });
-
-        ventas.push({
-            fecha: new Date(),
-            producto: 'Memoria RAM 8GB',
-            cantidad: 10,
-        });
-
-        ventas.push({
-            fecha: new Date(),
-            producto: 'Disco Duro 1TB',
-            cantidad: 2,
-        });
-
-        ventas.push({
-            fecha: new Date(),
-            producto: 'Tarjeta Grafica GTX 4090',
-            cantidad: 3,
-        });
-
-        ventas.push({
-            fecha: new Date(),
-            producto: 'Mouse Inalambrico PTX',
-            cantidad: 1,
-        });
-
-        ventas.forEach(venta => {
-            if (productosVendidos[venta.producto]) {
-                productosVendidos[venta.producto] += venta.cantidad;
-            } else {
-                productosVendidos[venta.producto] = venta.cantidad;
-            }
-        });
-
-        let productoMasVendido = Object.keys(productosVendidos).reduce((a, b) => productosVendidos[a] > productosVendidos[b] ? a : b);
-        console.log('Ingresos Generados:', ingresos);
-        console.log('Producto mas vendido:', productoMasVendido);
     }
 }
 
+// Creación de productos
+let p1 = new Producto("Procesador", 200.00, 10, "Procesadores");
+let p2 = new Producto("Memoria RAM", 80.00, 20, "Memorias RAM");
+let p3 = new Producto("Disco Duro", 50.00, 15, "Discos Duros");
+let p4 = new Producto("Tarjeta Grafica", 300.00, 5, "Tarjetas Graficas");
 
+// Creación del inventario y agregación de productos
 const inventario = new Inventario();
-inventario.agregarProducto({ nombre: 'Procesador Intel i9', precio: 500, cantidad: 10, categoria: 'Procesadores' });
-inventario.agregarProducto({ nombre: 'Memoria RAM 8GB', precio: 100, cantidad: 20, categoria: 'Memorias RAM' });
-inventario.agregarProducto({ nombre: 'Disco Duro 1TB', precio: 80, cantidad: 15, categoria: 'Discos Duros' });
-inventario.agregarProducto({ nombre: 'Tarjeta Grafica GTX 4090', precio: 700, cantidad: 5, categoria: 'Tarjetas Graficas' });
+inventario.agregarProducto(p1);
+inventario.agregarProducto(p2);
+inventario.agregarProducto(p3);
+inventario.agregarProducto(p4);
 
-const venta = new Venta(inventario.inventario);
-venta.realizarVenta('Procesador Intel i9', 15);
-venta.realizarVenta('Memoria RAM 8GB', 5);
-venta.realizarVenta('Disco Duro 1TB', 2);
-venta.realizarVenta('Tarjeta Grafica GTX 4090', 1);
-
-const descuento = new Descuento(inventario.inventario);
+// Aplicación de descuentos
+const descuento = new Descuento(inventario.productos);
 descuento.aplicarDescuento(10, 'Procesadores');
 descuento.aplicarDescuento(20, 'Memorias RAM');
 descuento.aplicarDescuento(5, 'Discos Duros');
-descuento.aplicarDescuento(15, 'Tarjetas Graficas');    
+descuento.aplicarDescuento(15, 'Tarjetas Graficas');
 
-const reporte = new Reporte(inventario.inventario);
+// Generación de reporte
+const reporte = new Reporte(inventario.productos);
 reporte.reporte();
 
-inventario.listarProductosAscendente_Descendente();
-inventario.filtrarProductos_Categoria();
+// Listado de productos en orden ascendente y descendente
+inventario.listarProductos('ascendente');
+inventario.listarProductos('descendente');
 
-
-
-
-
+// Filtrado de productos por categoría
+console.log("PRODUCTOS FILTRADOS POR CATEGORIA 'Memorias RAM'");
+const productosFiltrados = inventario.filtrarPorCategoria('Memorias RAM');
+for (let i = 0; i < productosFiltrados.length; i++) {
+    console.log(`${productosFiltrados[i].nombre}: Precio - $${productosFiltrados[i].precio}, Cantidad - ${productosFiltrados[i].cantidad}`);
+}
