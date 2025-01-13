@@ -1,0 +1,124 @@
+-- MySQL Script generado por MySQL Workbench
+-- Mon Jan 13 09:47:07 2025
+-- Model: New Model    Version: 1.0
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema Gimnasios
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `Gimnasios` DEFAULT CHARACTER SET utf8 ;
+USE `Gimnasios` ;
+
+-- -----------------------------------------------------
+-- Table `Gimnasios`.`INSTRUCTORES`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Gimnasios`.`INSTRUCTORES` (
+  `clave_instructores` INT NOT NULL,
+  `rfc_instructores` VARCHAR(45) NULL,
+  PRIMARY KEY (`clave_instructores`)
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Gimnasios`.`CLASES`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Gimnasios`.`CLASES` (
+  `identificador_clase` INT NOT NULL,
+  `nombre_clase` VARCHAR(45) NULL,
+  `INSTRUCTORES_clave_instructores` INT NOT NULL,
+  PRIMARY KEY (`identificador_clase`),
+  INDEX `fk_CLASES_INSTRUCTORES1_idx` (`INSTRUCTORES_clave_instructores`),
+  CONSTRAINT `fk_CLASES_INSTRUCTORES1`
+    FOREIGN KEY (`INSTRUCTORES_clave_instructores`)
+    REFERENCES `Gimnasios`.`INSTRUCTORES` (`clave_instructores`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Gimnasios`.`CLIENTES`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Gimnasios`.`CLIENTES` (
+  `clave_cliente` INT NOT NULL,
+  `curp_cliente` VARCHAR(45) NULL,
+  `direccion_cliente` VARCHAR(45) NULL,
+  PRIMARY KEY (`clave_cliente`)
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Gimnasios`.`CURSOS`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Gimnasios`.`CURSOS` (
+  `id_curso` INT NOT NULL,
+  `fecha_curso` DATETIME NULL,
+  `hora_curso` DATETIME NULL,
+  `costo_curso` VARCHAR(45) NULL,
+  `CLASES_identificador_clase` INT NOT NULL,
+  PRIMARY KEY (`id_curso`),
+  INDEX `fk_CURSOS_CLASES1_idx` (`CLASES_identificador_clase`),
+  CONSTRAINT `fk_CURSOS_CLASES1`
+    FOREIGN KEY (`CLASES_identificador_clase`)
+    REFERENCES `Gimnasios`.`CLASES` (`identificador_clase`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Gimnasios`.`SALAS`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Gimnasios`.`SALAS` (
+  `id_sala` INT NOT NULL,
+  `ubicacion_sala` VARCHAR(45) NULL,
+  `nombre_sala` VARCHAR(45) NULL,
+  `numero_sala` INT NULL,
+  PRIMARY KEY (`id_sala`)
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Gimnasios`.`SALAS_has_CLASES`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Gimnasios`.`SALAS_has_CLASES` (
+  `SALAS_id_sala` INT NOT NULL,
+  `CLASES_identificador_clase` INT NOT NULL,
+  PRIMARY KEY (`SALAS_id_sala`, `CLASES_identificador_clase`),
+  INDEX `fk_SALAS_has_CLASES_CLASES1_idx` (`CLASES_identificador_clase`),
+  INDEX `fk_SALAS_has_CLASES_SALAS_idx` (`SALAS_id_sala`),
+  CONSTRAINT `fk_SALAS_has_CLASES_SALAS`
+    FOREIGN KEY (`SALAS_id_sala`)
+    REFERENCES `Gimnasios`.`SALAS` (`id_sala`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_SALAS_has_CLASES_CLASES1`
+    FOREIGN KEY (`CLASES_identificador_clase`)
+    REFERENCES `Gimnasios`.`CLASES` (`identificador_clase`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Gimnasios`.`CLASES_has_CLIENTES`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Gimnasios`.`CLASES_has_CLIENTES` (
+  `CLASES_identificador_clase` INT NOT NULL,
+  `CLIENTES_clave_cliente` INT NOT NULL,
+  PRIMARY KEY (`CLASES_identificador_clase`, `CLIENTES_clave_cliente`),
+  INDEX `fk_CLASES_has_CLIENTES_CLIENTES1_idx` (`CLIENTES_clave_cliente`),
+  INDEX `fk_CLASES_has_CLIENTES_CLASES1_idx` (`CLASES_identificador_clase`),
+  CONSTRAINT `fk_CLASES_has_CLIENTES_CLASES1`
+    FOREIGN KEY (`CLASES_identificador_clase`)
+    REFERENCES `Gimnasios`.`CLASES` (`identificador_clase`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_CLASES_has_CLIENTES_CLIENTES1`
+    FOREIGN KEY (`CLIENTES_clave_cliente`)
+    REFERENCES `Gimnasios`.`CLIENTES` (`clave_cliente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+) ENGINE = InnoDB;
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
