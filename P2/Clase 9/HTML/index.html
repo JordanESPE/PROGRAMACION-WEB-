@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .azul {
+            color: blue;
+        }
+    </style>
+    <title>DOM EN JS</title>
+</head>
+<body>
+    <header>
+        <h1 id="cabecera">Titulo del Documento</h1>
+        <p id="parrafo" class="azul">Parrafo No. 1</p>
+        <p id="parrafo2" class="azul">Parrafo No. 2</p>
+        <p id="parrafo3" class="rojo">Parrafo No. 3</p>
+    </header>
+    <script>
+        /*
+        //getElementById
+        let cabecera = document.getElementById('cabecera').innerHTML;  
+        // console.log('Valor de cabecera' + cabecera);  
+        console.log(`Valor de Cabecera: ${cabecera}`);
+
+        let parrafo = document.getElementById('parrafo');
+
+        console.log(`Valor parrafo: ${parrafo.innerHTML}`); 
+
+        parrafo.innerHTML = "Nuevo valor del parrafo";
+        cabecera = "Cambio de nombre";
+        console.log(`Valor del cabecera: ${cabecera}`);
+
+        let parrafos = document.getElementsByTagName('h1');
+        console.log(`No. de Parrafos: ${parrafos.length}`);
+
+        for(const element of parrafos){
+            console.log(element.innerHTML);
+        }
+        */
+        let elementos = document.querySelectorAll('p');
+        console.log(`Nro de Elementos: ${elementos.length}`);
+    </script>
+</body>
+</html>

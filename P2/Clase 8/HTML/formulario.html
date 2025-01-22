@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .azul {
+            color: blue;
+        }
+    </style>
+    <title>Formularios en JS</title>
+</head>
+<body>
+    <form id="formulario" onsubmit="mostrarValores(event)">
+        Nombre: <input type="text" name="nombre" value="Juan">
+        <br>
+        Apellido: <input type="text" name="apellido" value="Gonza">
+        <br>
+        Correo: <input type="email" name="mail" value="pepemagos@espe.edu.ec">
+        <button id="bntMostar" type="submit">mostrarValores</button>
+    </form>
+    <div id="valores"></div>
+
+    <script>
+        function mostrarValores(event) {
+            event.preventDefault(); // Prevent form submission
+            let formulario = document.forms['formulario'];
+            let text = '';
+            for (const element of formulario) {
+                text += element.value + '<br>';
+            }
+            document.getElementById('valores').innerHTML = text;
+
+            //de manera individual es decir sin terar
+            let nombre = formulario['nombre'];
+            let apellido = formulario['apellido'];
+            let mail = formulario['email'];
+            
+            texto = nombre.value + '<br>' + apellido.value;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control Interactivo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: white;
+            color: black; 
+        }
+        #panelConfiguracion {
+            display: none;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            padding: 5px;
+            border: 1px solid #ccc;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+        
+        .modo-oscuro {
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="titulo">Título de la Página</h1>
+
+    <button id="togglePanel">Mostrar Panel</button>
+
+    <div id="panelConfiguracion">
+        <h2>Panel de Configuración</h2>
+        
+        <!-- Cambiar tema -->
+        <label for="tema">Selecciona un tema:</label>
+        <select id="tema">
+            <option value="claro">Claro</option>
+            <option value="oscuro">Oscuro</option>
+            <option value="azul">Azul</option>
+        </select>
+        <br><br>
+
+        <!-- Actualizar titulo -->
+        <label for="nuevoTitulo">Nuevo título:</label>
+        <input type="text" id="nuevoTitulo">
+        <br><br>
+
+        <!-- Habilitar/Deshabilitar text -->
+        <label>
+            <input type="checkbox" id="habilitarComentarios">
+            Habilitar comentarios
+        </label>
+        <br><br>
+        <textarea id="areaComentarios" disabled></textarea>
+        <br><br>
+
+        <!-- Agregar/Eliminar elementos -->
+        <label for="nuevoElemento">Agregar elemento a la lista:</label>
+        <input type="text" id="nuevoElemento">
+        <button id="agregarElemento">Agregar</button>
+        <ul id="lista">
+            <li>Elemento 1</li>
+            <li>Elemento 2</li>
+        </ul>
+    </div>
+    funcio
+
+    <script>
+        // Mostrar/Ocultar panel
+        let togglePanelBtn = document.getElementById('togglePanel');
+        let panelConfiguracion = document.getElementById('panelConfiguracion');
+
+        togglePanelBtn.addEventListener('click', function () {
+            let isVisible = panelConfiguracion.style.display === 'block';
+            if (isVisible) {
+                panelConfiguracion.style.display = 'none';
+                togglePanelBtn.textContent = 'Mostrar Panel';
+            } else {
+                panelConfiguracion.style.display = 'block';
+                togglePanelBtn.textContent = 'Ocultar Panel';
+            }
+        });
+
+        // Cambiar tema
+        let temaSelect = document.getElementById('tema');
+        temaSelect.addEventListener('change', function (event) {
+            let valor = event.target.value;
+            document.body.classList.remove('modo-oscuro'); // Quita clase de modo oscuro si está aplicada
+
+            if (valor === 'oscuro') {
+                document.body.style.backgroundColor = 'black';
+                document.body.style.color = 'white'; // Cambia color de texto a blanco
+            } else if (valor === 'azul') {
+                document.body.style.backgroundColor = 'blue';
+                document.body.style.color = 'white'; // Cambia color de texto a blanco
+            } else {
+                document.body.style.backgroundColor = 'white';
+                document.body.style.color = 'black'; // Vuelve al color de texto predeterminado
+            }
+        });
+
+        // Actualizar título dinámicamente
+        let tituloInput = document.getElementById('nuevoTitulo');
+        let titulo = document.getElementById('titulo');
+        tituloInput.addEventListener('input', function (event) {
+            if (event.target.value) {
+                titulo.textContent = event.target.value;
+            } else {
+                titulo.textContent = 'Titulo de la Página';
+            }
+        });
+
+        // Habilitar/Deshabilitar comentarios
+        let habilitarComentariosCheckbox = document.getElementById('habilitarComentarios');
+        let areaComentarios = document.getElementById('areaComentarios');
+        habilitarComentariosCheckbox.addEventListener('change', function (event) {
+            if (event.target.checked) {
+                areaComentarios.disabled = false;
+            } else {
+                areaComentarios.disabled = true;
+            }
+        });
+
+        // Agregar y eliminar elementos de la lista
+        let lista = document.getElementById('lista');
+        let nuevoElementoInput = document.getElementById('nuevoElemento');
+        let agregarElementoBtn = document.getElementById('agregarElemento');
+
+        agregarElementoBtn.addEventListener('click', function () {
+            let nuevoTexto = nuevoElementoInput.value;
+            if (nuevoTexto.length > 0) {
+                let liElement = document.createElement('li');
+                liElement.textContent = nuevoTexto;
+
+                
+                let ul = document.getElementById('lista');
+                ul.innerHTML += "<li>" + nuevoTexto + "</li>";
+
+                nuevoElementoInput.value = ''; // Limpiar campo de entrada
+            }
+        });
+
+        // Para eliminar elementos de la lista 
+        lista.addEventListener('click', function (event) {
+            if (event.target.tagName === 'LI') {
+                let liSeleccionado = event.target;
+                let listaItems = document.getElementById('lista').children;
+                for (let i = 0; i < listaItems.length; i++) {
+                    if (listaItems[i] === liSeleccionado) {
+                      
+                        let itemsArray = Array.from(listaItems);
+                        itemsArray.splice(i, 1);
+                        document.getElementById('lista').innerHTML = '';
+                        itemsArray.forEach(function (item) {
+                            document.getElementById('lista').innerHTML += item.outerHTML;
+                        });
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
