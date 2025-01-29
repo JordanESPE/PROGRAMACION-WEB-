@@ -1,0 +1,179 @@
+El código presentado implementa una estructura de una biblioteca digital en HTML, CSS (enlazado externamente) y JavaScript, utilizando diversas características modernas de JavaScript. A continuación, analizo cada función, método o técnica implementada, justificando su uso:
+
+1. Manejo de arrays y métodos funcionales
+filter:
+Usado para filtrar libros disponibles y prestados. Es adecuado porque retorna una nueva lista sin modificar el array original, lo que respeta el principio de inmutabilidad.
+Ejemplo:
+
+javascript
+Copiar
+Editar
+libros.filter(function(libro) {
+    return !libro.prestado;
+});
+forEach:
+Usado para iterar sobre los arrays y generar los elementos del DOM. Esto permite manipular cada libro fácilmente, manteniendo la lógica clara y legible.
+Ejemplo:
+
+javascript
+Copiar
+Editar
+librosPrestados.forEach(function(libro) {
+    const li = document.createElement('li');
+});
+push:
+Usado para agregar un libro al array librosPrestados. Es una elección correcta porque modifica directamente el array y refleja el cambio en el estado.
+Ejemplo:
+
+javascript
+Copiar
+Editar
+librosPrestados.push(libro);
+filter (en devolución):
+Usado para actualizar el estado eliminando el libro devuelto de la lista de libros prestados. Esto asegura que la lista quede actualizada correctamente.
+Ejemplo:
+
+javascript
+Copiar
+Editar
+librosPrestados = librosPrestados.filter(function(l) {
+    return l.titulo !== libro.titulo;
+});
+2. Manejo del DOM y eventos
+getElementById:
+Usado para acceder a elementos específicos del DOM como listas o entradas de texto. Es eficiente y adecuado para elementos con un identificador único.
+Ejemplo:
+
+javascript
+Copiar
+Editar
+const listaDisponibles = document.getElementById('listaDisponibles');
+Eventos como onclick, onmouseover, y onmouseout:
+Usados para proporcionar interactividad al usuario. Por ejemplo:
+
+onclick permite prestar o devolver un libro.
+onmouseover y onmouseout añaden un efecto visual resaltando los elementos.
+Ejemplo:
+javascript
+Copiar
+Editar
+li.onmouseover = function() {
+    li.style.backgroundColor = '#f0f0f0';
+};
+li.onmouseout = function() {
+    li.style.backgroundColor = 'transparent';
+};
+Creación dinámica de elementos (createElement):
+Usado para generar listas dinámicamente en el DOM. Esto es fundamental para aplicaciones dinámicas como esta.
+Ejemplo:
+
+javascript
+Copiar
+Editar
+const li = document.createElement('li');
+li.textContent = libro.titulo + " - " + libro.autor + " (" + libro.genero + ")";
+3. Propuesta de objetos y clases
+Uso de clases (class):
+Implementa una clase Libro para definir la estructura de un libro. Esto es útil porque permite crear objetos libro con propiedades y métodos predefinidos, mejorando la modularidad y reutilización.
+Ejemplo:
+
+javascript
+Copiar
+Editar
+class Libro {
+    constructor(titulo, autor, genero) {
+        this.titulo = titulo;
+        this.autor = autor;
+        this.genero = genero;
+        this.prestado = false;
+    }
+
+    prestar() {
+        this.prestado = true;
+    }
+
+    devolver() {
+        this.prestado = false;
+    }
+}
+Object.create:
+Usado para crear un objeto basado en un prototipo existente. Este enfoque es útil para personalizar propiedades de objetos individuales sin afectar la clase principal.
+Ejemplo:
+
+javascript
+Copiar
+Editar
+const libroEjemplo = Object.create(Libro.prototype, {
+    titulo: { value: "Ejemplo de libro" },
+    autor: { value: "Autor desconocido" },
+    genero: { value: "Genero desconocido" }
+});
+Object.freeze y Object.seal:
+Usados para garantizar inmutabilidad y proteger objetos de cambios accidentales. Son útiles para mantener la integridad de datos.
+Ejemplo:
+
+javascript
+Copiar
+Editar
+Object.freeze(libroEjemplo);
+Object.seal(libroEjemplo2);
+apply y call:
+Usados para invocar funciones en un contexto específico. Estos métodos son valiosos cuando una función necesita operar sobre un objeto diferente al que está vinculado originalmente.
+Ejemplo:
+
+javascript
+Copiar
+Editar
+mostrarInfoLibro.apply(libroEjemplo3);
+mostrarInfoLibro.call(libroEjemplo3);
+4. Funciones y asincronía
+Funciones autoejecutables:
+Usadas para inicializar la aplicación inmediatamente. Esto organiza el código y asegura que las funciones necesarias se ejecuten al cargar la página.
+Ejemplo:
+
+javascript
+Copiar
+Editar
+(function inicializar() {
+    mostrarLibrosDisponibles();
+})();
+setTimeout:
+Usado para notificaciones con un retardo, como recordar al usuario devolver un libro. Es útil para mejorar la experiencia del usuario.
+Ejemplo:
+
+javascript
+Copiar
+Editar
+setTimeout(function() {
+    mostrarNotificacion("Recuerda devolver el libro: " + libro.titulo + " en 7 días.");
+}, 5000);
+setInterval:
+Implementado para notificaciones periódicas sobre libros prestados. Esto mejora la interacción del usuario, manteniéndolo informado de su estado.
+Ejemplo:
+
+javascript
+Copiar
+Editar
+setInterval(function() {
+    if (librosPrestados.length > 0) {
+        mostrarNotificacion("Recuerda devolver los libros prestados.");
+    }
+}, 10000);
+Promesas (Promise) y async/await:
+Usados para simular operaciones asíncronas como reservas. Esto permite manejar flujos de trabajo complejos de forma clara y evitar "callback hell".
+Ejemplo:
+
+javascript
+Copiar
+Editar
+async function reservarLibro(libro) {
+    const mensaje = await simularReserva(libro);
+    mostrarNotificacion(mensaje);
+}
+Conclusión
+El código está bien estructurado y emplea prácticas modernas y eficientes de JavaScript. Los métodos y funciones utilizados son justificados para cumplir con los objetivos de la aplicación:
+
+Manejar datos dinámicos (arrays y objetos).
+Interactuar con el DOM de manera efectiva.
+Implementar asincronía para mejorar la experiencia del usuario.
+Utilizar clases para garantizar modularidad y reutilizació

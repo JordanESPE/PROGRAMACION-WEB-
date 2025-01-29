@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Digital</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Enlace al archivo CSS -->
+</head>
+<body>
+    <h1>Biblioteca Digital</h1>
+    <div id="app">
+        <!-- Búsqueda de libros -->
+        <div id="search">
+            <input type="text" id="searchInput" placeholder="Buscar libro por título, autor o género">
+            <button onclick="buscarLibros()">Buscar</button>
+        </div>
+
+        <!-- Lista de libros disponibles -->
+        <div id="librosDisponibles">
+            <h2>Libros Disponibles</h2>
+            <ul id="listaDisponibles"></ul>
+        </div>
+
+        <!-- Lista de libros prestados -->
+        <div id="librosPrestados">
+            <h2>Libros Prestados</h2>
+            <ul id="listaPrestados"></ul>
+        </div>
+    </div>
+
+    <script>
+        // 1. Uso correcto de arrays y métodos funcionales (map, filter, reduce, push, pop, shift, unshift)
+
+        // Datos de ejemplo de libros
+        const libros = [
+            { titulo: "Cien años de soledad", autor: "Gabriel García Márquez", genero: "Novela", prestado: false },
+            { titulo: "1984", autor: "George Orwell", genero: "Ciencia Ficción", prestado: false },
+            { titulo: "El Principito", autor: "Antoine de Saint-Exupéry", genero: "Fábula", prestado: false },
+            { titulo: "Don Quijote de la Mancha", autor: "Miguel de Cervantes", genero: "Novela", prestado: false }
+        ];
+
+        // Array para libros prestados
+        let librosPrestados = [];
+
+        // 2. Manejo del DOM y eventos (getElementById, querySelectorAll, onclick, onmouseover, onmouseout, etc.)
+
+        // Función para mostrar libros disponibles
+        function mostrarLibrosDisponibles() {
+            const listaDisponibles = document.getElementById('listaDisponibles');
+            listaDisponibles.innerHTML = '';
+
+            // Uso de filter para obtener libros disponibles
+            libros.filter(function(libro) {
+                return !libro.prestado;
+            }).forEach(function(libro) {
+                const li = document.createElement('li');
+                li.textContent = libro.titulo + " - " + libro.autor + " (" + libro.genero + ")";
+
+                // Evento onclick para prestar un libro
+                const botonPrestar = document.createElement('button');
+                botonPrestar.textContent = 'Prestar';
+                botonPrestar.onclick = function() {
+                    prestarLibro(libro);
+                };
+
+                // Evento onmouseover y onmouseout para resaltar el libro
+                li.onmouseover = function() {
+                    li.style.backgroundColor = '#f0f0f0';
+                };
+                li.onmouseout = function() {
+                    li.style.backgroundColor = 'transparent';
+                };
+
+                li.appendChild(botonPrestar);
+                listaDisponibles.appendChild(li);
+            });
+        }
+
+        // Función para mostrar libros prestados
+        function mostrarLibrosPrestados() {
+            const listaPrestados = document.getElementById('listaPrestados');
+            listaPrestados.innerHTML = '';
+
+            // Uso de forEach para mostrar libros prestados
+            librosPrestados.forEach(function(libro) {
+                const li = document.createElement('li');
+                li.textContent = libro.titulo + " - " + libro.autor + " (" + libro.genero + ")";
+
+                // Evento onclick para devolver un libro
+                const botonDevolver = document.createElement('button');
+                botonDevolver.textContent = 'Devolver';
+                botonDevolver.onclick = function() {
+                    devolverLibro(libro);
+                };
+
+                li.appendChild(botonDevolver);
+                listaPrestados.appendChild(li);
+            });
+        }
+
+        // Función para prestar un libro
+        function prestarLibro(libro) {
+            libro.prestado = true;
+            librosPrestados.push(libro); // Uso de push para agregar un libro prestado
+            mostrarLibrosDisponibles();
+            mostrarLibrosPrestados();
+            mostrarNotificacion("Has prestado el libro: " + libro.titulo);
+            setTimeout(function() {
+                mostrarNotificacion("Recuerda devolver el libro: " + libro.titulo + " en 7 días.");
+            }, 5000);
+        }
+
+        // Función para devolver un libro
+        function devolverLibro(libro) {
+            libro.prestado = false;
+            librosPrestados = librosPrestados.filter(function(l) {
+                return l.titulo !== libro.titulo;
+            }); // Uso de filter para eliminar un libro prestado
+            mostrarLibrosDisponibles();
+            mostrarLibrosPrestados();
+            mostrarNotificacion("Has devuelto el libro: " + libro.titulo);
+        }
+
+        // Función para buscar libros
+        function buscarLibros() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const resultados = libros.filter(function(libro) {
+                return libro.titulo.toLowerCase().includes(query) || 
+                       libro.autor.toLowerCase().includes(query) || 
+                       libro.genero.toLowerCase().includes(query);
+            });
+            const listaDisponibles = document.getElementById('listaDisponibles');
+            listaDisponibles.innerHTML = '';
+            resultados.forEach(function(libro) {
+                const li = document.createElement('li');
+                li.textContent = libro.titulo + " - " + libro.autor + " (" + libro.genero + ")";
+                listaDisponibles.appendChild(li);
+            });
+        }
+
+        // 3. Propuesta de objetos y clases (Object, Object.create, Object.freeze, Object.seal, Clases, constructor, apply, call)
+
+        // Uso de clases para representar un libro
+        class Libro {
+            constructor(titulo, autor, genero) {
+                this.titulo = titulo;
+                this.autor = autor;
+                this.genero = genero;
+                this.prestado = false;
+            }
+
+            prestar() {
+                this.prestado = true;
+            }
+
+            devolver() {
+                this.prestado = false;
+            }
+        }
+
+        // Creación de un objeto usando Object.create
+        const libroEjemplo = Object.create(Libro.prototype, {
+            titulo: { value: "Ejemplo de libro" },
+            autor: { value: "Autor desconocido" },
+            genero: { value: "Genero desconocido" }
+        });
+
+        // Uso de Object.freeze para evitar modificaciones
+        Object.freeze(libroEjemplo);
+
+        // Uso de Object.seal para evitar agregar o eliminar propiedades
+        const libroEjemplo2 = { titulo: "Libro sellado", autor: "Autor desconocido", genero: "Genero desconocido" };
+        Object.seal(libroEjemplo2);
+
+        // Uso de apply y call para invocar funciones con un contexto específico
+        function mostrarInfoLibro() {
+            console.log("Libro: " + this.titulo + ", Autor: " + this.autor);
+        }
+
+        const libroEjemplo3 = { titulo: "Libro con apply", autor: "Autor con apply" };
+        mostrarInfoLibro.apply(libroEjemplo3); // Uso de apply
+        mostrarInfoLibro.call(libroEjemplo3);  // Uso de call
+
+        // 4. Funciones y asincronía (funciones flecha, autoejecutables, anónimas, async/await, setInterval, setTimeout, promesas y callbacks)
+
+        // Función autoejecutable para inicializar la aplicación
+        (function inicializar() {
+            mostrarLibrosDisponibles();
+        })();
+
+        // Función para mostrar notificaciones usando alert
+        function mostrarNotificacion(mensaje) {
+            alert(mensaje); // Usamos alert para mostrar notificaciones
+        }
+
+        // Simulación de una operación asíncrona con promesas y async/await
+        function simularReserva(libro) {
+            return new Promise(function(resolve) {
+                setTimeout(function() {
+                    resolve("Reserva completada: " + libro.titulo);
+                }, 2000);
+            });
+        }
+
+        // Uso de async/await para manejar la reserva
+        async function reservarLibro(libro) {
+            const mensaje = await simularReserva(libro);
+            mostrarNotificacion(mensaje);
+        }
+
+        // Uso de setInterval para notificaciones periódicas
+        setInterval(function() {
+            if (librosPrestados.length > 0) {
+                mostrarNotificacion("Recuerda devolver los libros prestados.");
+            }
+        }, 10000); // Notificación cada 10 segundos
+    </script>
+</body>
+</html>
